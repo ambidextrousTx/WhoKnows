@@ -23,15 +23,18 @@ def complain_and_die():
 
 def parse_json(input_file):
     people = defaultdict(dict)
-    with open(input_file, 'r') as fh:
-        for line in fh:
-            person_data = line.strip()[0]
-            ID = person_data['ID']
-            # Use the following data for other features
-            people[ID]['name'] = person_data['name']
-            people[ID]['dept'] = person_data['dept']
-            people[ID]['data'] = person_data['profile_full_text']
-            people[ID]['pic'] = person_data['profile_picture_src']
+    fh = open(input_file, 'r')
+    data = json.load(fh)
+    counter = 0
+    for blob in data:
+        person_data = blob.strip()[0]
+        ID = counter
+        # Use the following data for other features
+        people[ID]['name'] = person_data['name']
+        people[ID]['dept'] = person_data['dept']
+        people[ID]['data'] = person_data['full_profile_text']
+        people[ID]['pic'] = person_data['profile_url']
+        counter += 1
     return people
 
 def generate_token_vectors(people):

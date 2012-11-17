@@ -27,7 +27,7 @@ def parse_json(input_file):
     data = json.load(fh)
     counter = 0
     for blob in data:
-        person_data = blob.strip()[0]
+        person_data = blob
         ID = counter
         # Use the following data for other features
         people[ID]['name'] = person_data['name']
@@ -40,7 +40,7 @@ def parse_json(input_file):
 def generate_token_vectors(people):
     vectors = {}
     for ID in people:
-        vector = generate(people[ID][data])
+        vector = generate(people[ID]['data'])
         vectors[ID]['name'] = people[ID]['name']
         vectors[ID]['tokens'] = vector
     return vectors

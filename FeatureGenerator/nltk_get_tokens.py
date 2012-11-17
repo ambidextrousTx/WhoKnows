@@ -19,7 +19,7 @@ def clean_punctuation(mystr):
     hyperlink = re.compile(r'\bhttp:\\/\\/.*\\/.+?\b')
     twitter_entities = re.compile(r'@|#')
     html_ent = re.compile(r'&amp;')
-    punctuation = re.compile(r',|\.|"|\'|\\|/|\||!|\?|:|')
+    punctuation = re.compile(r',|\.|"|\'|\\|/|\||!|\?|:|\-|\(|\)')
     alphanums = re.compile(r'\w+\d|\d+\w')
 
     # not the best or perfect, but hey
@@ -43,6 +43,9 @@ def lemmatize(wnl, cleaned_str):
     lemm_str = ' '.join(list_of_lemm_tok)
     return lemm_str
 
+def sanitize_for_unicode(mystr):
+    return mystr.encode('utf-8')
+
 def generate(mystr):
     # Assumption: garbled yet flat text; one huge string
     # Need: 
@@ -55,5 +58,5 @@ def generate(mystr):
     cleaned_string = clean_punctuation(filtered_string)
     wnl = WordNetLemmatizer()
     lemmatized_string = lemmatize(wnl, cleaned_string)
-    return lemmatized_string
+    return sanitize_for_unicode(lemmatized_string)
 

@@ -38,11 +38,15 @@ def parse_json(input_file):
     return people
 
 def generate_token_vectors(people):
-    vectors = {}
+    vectors = defaultdict(dict)
     for ID in people:
-        vector = generate(people[ID]['data'])
-        vectors[ID]['name'] = people[ID]['name']
-        vectors[ID]['tokens'] = vector
+        try:
+            vector = generate(people[ID]['data'])
+            vectors[ID]['name'] = people[ID]['name']
+            vectors[ID]['tokens'] = vector.split() # Need a string
+        except AttributeError:
+            # Handling the one NoneType blob
+            pass
     return vectors
 
 def generate_inv_index(people):
